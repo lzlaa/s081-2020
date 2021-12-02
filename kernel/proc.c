@@ -294,7 +294,7 @@ fork(void)
   pid = np->pid;
 
   np->state = RUNNABLE;
-
+  np->trace_syscall = p->trace_syscall;
   release(&np->lock);
 
   return pid;
