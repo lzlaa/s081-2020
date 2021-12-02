@@ -13,7 +13,8 @@
 trampoline:
 .align 4
 .globl uservec
-uservec:    
+uservec:
+        # 处理用户态的trap：保存寄存器，加载kenel stack，执行usertrap()
 	#
         # trap.c sets stvec to point here, so
         # traps from user space start here,
@@ -23,8 +24,10 @@ uservec:
         # sscratch points to where the process's p->trapframe is
         # mapped into user space, at TRAPFRAME.
         #
-        
-	# swap a0 and sscratch
+        # 将进程的寄存器保存至进程的TRAPFRAME(user space)中
+        # 并将TRAPFRAME的地址保存在p->trapframe->a0
+
+	# swap a0 and sscratch(用来存储每个进程trapfram的基地址)
         # so that a0 is TRAPFRAME
         csrrw a0, sscratch, a0
 
@@ -61,6 +64,7 @@ uservec:
         sd t6, 280(a0)
 
 	# save the user a0 in p->trapframe->a0
+        # t0只是一个临时变量，暂存sscratch中的a0
         csrr t0, sscratch
         sd t0, 112(a0)
 
@@ -71,10 +75,11 @@ uservec:
         ld tp, 32(a0)
 
         # load the address of usertrap(), p->trapframe->kernel_trap
+        # t0只是一个临时变量
         ld t0, 16(a0)
 
         # restore kernel page table from p->trapframe->kernel_satp
-        ld t1, 0(a0)
+        ld t1, 0(a0) # p->trapframe->kernel_satp时进程创建时指定的
         csrw satp, t1
         sfence.vma zero, zero
 
@@ -86,6 +91,8 @@ uservec:
 
 .globl userret
 userret:
+        # 在从usertrap()跳转到这里之前已经恢复了p->trapframe，将TARPFRAM恢复到执行uservec之前的状态
+        # 从uservec进入的trap要从userret返回：从TARPFARM恢复寄存器状态，save TRAPFRAME in sscratch
         # userret(TRAPFRAME, pagetable)
         # switch from kernel to user.
         # usertrapret() calls here.

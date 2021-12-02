@@ -28,6 +28,7 @@ struct cpu {
 
 extern struct cpu cpus[NCPU];
 
+// 每创建一个进程xv6就会为其分配一个page作为trapfram并设置kernel_*
 // per-process data for the trap handling code in trampoline.S.
 // sits in a page by itself just under the trampoline page in the
 // user page table. not specially mapped in the kernel page table.
