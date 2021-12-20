@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="xv6" type="CLion_Remote" version="1" remoteCommand="localhost:25501" symbolFile="$PROJECT_DIR$/kernel/kernel" sysroot="$PROJECT_DIR$">
+    <debugger kind="GDB">/usr/local/bin/riscv64-unknown-elf-gdb</debugger>
+    <method v="2" />
+  </configuration>
+</component>

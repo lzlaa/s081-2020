@@ -103,4 +103,10 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+
+  int pending;             // 不为0表示当前进程已经处于alarm回调处理过程
+  int intervals;           // intervals > 0 表明开启了alarm回调
+  int tickers;             // 已经经过的tickers
+  void(* handler)();       // 回调函数，位于用户态
+  struct trapframe *alarm_trapframe;  // 执行alarm handler时用来保存进程的trapfram
 };
