@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "vector": "cpp",
+        "__hash_table": "c",
+        "__locale": "c",
+        "__threading_support": "c",
+        "algorithm": "c",
+        "functional": "c",
+        "locale": "c",
+        "string": "c",
+        "type_traits": "c",
+        "typeinfo": "c"
+    }
+}
