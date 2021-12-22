@@ -9,6 +9,8 @@
         "locale": "c",
         "string": "c",
         "type_traits": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "__mutex_base": "c",
+        "memory": "c"
     }
 }
